@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>RENNIE ENERGY</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Material Icons & Font Awesome -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <!-- EmailJS -->
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+    <script>
+        (function(){ emailjs.init("YOUR_EMAILJS_USER_ID"); })();
+    </script>
+    <style>
+        :root {
+            --primary: #1565c0;
+            --accent: #f8bbd0;
+            --bg: #e3f2fd;
+            --light: #fffde4;
+            --danger: #d81b60;
+            --radius: 18px;
+            --shadow: 0 4px 24px #1565c055;
+        }
+        body {
+            font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--bg) 50%, var(--light) 100%);
+            background-attachment: fixed;
+        }
+        header {
+            background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
+            color: #fff;
+            padding: 24px 0 12px 0;
+            text-align: center;
+            box-shadow: 0 2px 16px #1565c055;
+            letter-spacing: 2px;
+        }
+        nav {
+            background: rgba(255,255,255,0.85);
+            padding: 12px 0;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 2px 8px #90caf9;
+        }
+        nav .nav-links {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 32px;
+        }
+        nav a {
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 19px;
+            transition: color 0.2s, background 0.2s;
+            padding: 10px 0;
+            font-weight: 600;
+            border-radius: 10px;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        nav a:hover, nav a:focus {
+            color: #fff;
+            background: var(--primary);
+        }
+        .hamburger {
+            display: none;
+            position: absolute;
+            right: 20px;
+            top: 14px;
+            width: 32px;
+            height: 32px;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 2;
+        }
+        .hamburger span {
+            height: 4px;
+            width: 28px;
+            background: var(--primary);
+            margin: 4px 0;
+            border-radius: 2px;
+            display: block;
+            transition: 0.3s;
+        }
+        .menu-drawer {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background: rgba(248, 187, 208, 0.18);
+            z-index: 30;
+            justify-content: flex-end;
+        }
+        .menu-drawer.active {
+            display: flex;
+        }
+        .drawer-content {
+            background: #fff;
+            width: 260px;
+            height: 100vh;
+            box-shadow: -2px 0 24px #1565c055;
+            padding: 32px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+        .drawer-content a {
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 1.1em;
+            padding: 14px 24px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: background 0.2s, color 0.2s;
+        }
+        .drawer-content a:hover {
+            background: var(--accent);
+            color: #fff;
+        }
+        .drawer-content .help-link {
+            background: var(--bg);
+            color: var(--primary);
+            font-weight: bold;
+            margin-top: 18px;
+        }
+        .container {
+            width: 92%;
+            max-width: 1200px;
+            margin: 36px auto 60px auto;
+        }
+        .section-title {
+            margin-top: 40px;
+            margin-bottom: 18px;
+            color: var(--primary);
+            text-align: center;
+            font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;
+            font-size: 2.2em;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 8px #f8bbd055;
+        }
+        .product-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 32px;
+            justify-content: center;
+        }
+        .product-card {
+            background: linear-gradient(120deg, var(--light) 0%, var(--bg) 100%);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            width: 340px;
+            padding: 24px;
+            text-align: center;
+            transition: transform 0.2s, box-shadow 0.2s, border 0.2s;
+            border: 2px solid var(--accent);
+            position: relative;
+            overflow: hidden;
+        }
+        .product-card .badge {
+            position: absolute;
+            top: 12px; right: 12px;
+            background: var(--danger);
+            color: #fff;
+            padding: 4px 12px;
+            border-radius: 10px;
+            font-size: 0.9em;
+            font-weight: bold;
+            box-shadow: 0 2px 8px #d81b6055;
+        }
+        .product-card:hover {
+            transform: translateY(-7px) scale(1.04);
+            box-shadow: 0 8px 24px #1565c055;
+            border-color: var(--primary);
+        }
+        .product-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 12px;
+            border: 2px solid var(--bg);
+            background: #fff;
+            transition: filter 0.2s;
+        }
+        .product-card:hover img {
+            filter: brightness(0.95) drop-shadow(0 2px 8px #1565c055);
+        }
+        .product-card .product-type {
+            font-size: 1.1em;
+            color: var(--primary);
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        .product-card .product-price {
+            font-size: 1.2em;
+            color: var(--danger);
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        .product-card button {
+            margin-top: 14px;
+            padding: 10px 16px;
+            background: var(--accent);
+            color: var(--primary);
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.2s;
+            margin-right: 8px;
+            font-weight: bold;
+        }
+        .product-card button.order:hover {
+            background: var(--primary);
+            color: #fff;
+        }
+        .product-card button.more {
+            background: var(--bg);
+            color: var(--primary);
+            margin-right: 0;
+        }
+        .product-card button.more:hover {
+            background: var(--primary);
+            color: #fff;
+        }
+        .about, .contact {
+            background: #fff;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 36px 24px;
+            margin: 40px 0;
+            border: 2px solid var(--accent);
+        }
+        .about h2, .contact h2 {
+            margin-top: 0;
+            color: var(--primary);
+            font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;
+        }
+        .about-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+            justify-content: center;
+            margin: 32px 0;
+        }
+        .about-gallery img {
+            width: 220px;
+            height: 140px;
+            object-fit: cover;
+            border-radius: 14px;
+            box-shadow: 0 2px 12px #1565c055;
+            border: 2px solid var(--bg);
+        }
+        .about-gallery .gallery-caption {
+            text-align: center;
+            font-size: 1em;
+            color: var(--primary);
+            margin-top: 6px;
+        }
+        .inquire-modal, .options-modal, .order-modal, .help-modal {
+            display: none;
+            position: fixed;
+            z-index: 40;
+            left: 0; top: 0;
+            width: 100vw; height: 100vh;
+            background: rgba(248, 187, 208, 0.18);
+            justify-content: center;
+            align-items: center;
+        }
+        .inquire-modal.active, .options-modal.active, .order-modal.active, .help-modal.active {
+            display: flex;
+        }
+        .inquire-box, .options-box, .order-box, .help-box {
+            background: #fff;
+            border-radius: var(--radius);
+            padding: 36px 28px;
+            box-shadow: var(--shadow);
+            min-width: 340px;
+            max-width: 95vw;
+            text-align: left;
+            position: relative;
+            border: 2px solid var(--accent);
+        }
+        .inquire-box h3, .options-box h3, .order-box h3, .help-box h3 {
+            margin-top: 0;
+            color: var(--primary);
+        }
+        .order-success {
+            color: var(--primary);
+            font-weight: bold;
+            margin-top: 18px;
+            text-align: center;
+        }
+        .order-box label {
+            display: block;
+            margin: 12px 0 4px 0;
+        }
+        .order-box input, .order-box textarea, .order-box select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            border: 1px solid var(--bg);
+            font-size: 15px;
+        }
+        .options-list {
+            margin-bottom: 18px;
+        }
+        .options-list label {
+            font-weight: bold;
+            color: var(--primary);
+        }
+        .options-list select {
+            margin-top: 6px;
+        }
+        .hidden { display: none !important; }
+        .about-footer {
+            background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
+            color: #fff;
+            text-align: center;
+            padding: 22px 0;
+            font-size: 1.1em;
+            letter-spacing: 1px;
+            border-top-left-radius: var(--radius);
+            border-top-right-radius: var(--radius);
+            box-shadow: 0 -2px 16px #1565c055;
+            margin-top: 40px;
+        }
+        @media (max-width: 900px) { .product-list { flex-direction: column; align-items: center; } .product-card { width: 95%; } }
+        @media (max-width: 700px) {
+            nav .nav-links { display: none; flex-direction: column; background: var(--light); position: absolute; top: 100%; left: 0; width: 100%; gap: 0; z-index: 1; }
+            nav.open .nav-links { display: flex; }
+            nav a { margin: 0; padding: 18px 0; border-top: 1px solid var(--accent); }
+            .hamburger { display: flex; }
+            .about-gallery img { width: 100px; height: 70px; }
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>RENNY ENERGY</h1>
+    <p>Buy Gas Cylinders, Refills, Accessories & More</p>
+</header>
+<nav id="navbar">
+    <div class="hamburger" id="hamburger" onclick="toggleDrawer()">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+    <div class="nav-links" id="navLinks">
+        <a href="#" onclick="showPage('starter')"><span class="material-icons">home</span> Home</a>
+        <a href="#" onclick="showPage('cylinders')"><span class="material-icons">propane</span> Cylinders</a>
+        <a href="#" onclick="showPage('gases')"><span class="material-icons">science</span> Gases</a>
+        <a href="#" onclick="showPage('refills')"><span class="material-icons">refresh</span> Refills</a>
+        <a href="#" onclick="showPage('accessories')"><span class="material-icons">build</span> Accessories</a>
+        <a href="#" onclick="showPage('about')"><span class="material-icons">info</span> About</a>
+        <a href="#" onclick="showPage('contact')"><span class="material-icons">contact_mail</span> Contact</a>
+        <a href="#" onclick="openHelp()"><span class="material-icons">help</span> Help</a>
+    </div>
+</nav>
+<div class="menu-drawer" id="menuDrawer">
+    <div class="drawer-content">
+        <a href="#" onclick="showPage('starter');closeDrawer();"><span class="material-icons">home</span> Home</a>
+        <a href="#" onclick="showPage('cylinders');closeDrawer();"><span class="material-icons">propane</span> Cylinders</a>
+        <a href="#" onclick="showPage('gases');closeDrawer();"><span class="material-icons">science</span> Gases</a>
+        <a href="#" onclick="showPage('refills');closeDrawer();"><span class="material-icons">refresh</span> Refills</a>
+        <a href="#" onclick="showPage('accessories');closeDrawer();"><span class="material-icons">build</span> Accessories</a>
+        <a href="#" onclick="showPage('about');closeDrawer();"><span class="material-icons">info</span> About</a>
+        <a href="#" onclick="showPage('contact');closeDrawer();"><span class="material-icons">contact_mail</span> Contact</a>
+        <a href="#" class="help-link" onclick="openHelp();closeDrawer();"><span class="material-icons">help</span> Help</a>
+    </div>
+</div>
+<div class="container">
+    <!-- Starter Page -->
+    <section id="starterPage">
+        <div class="starter">
+            <h1><span class="material-icons" style="font-size:1.2em;vertical-align:middle;">local_fire_department</span> RENNIE ENERGY</h1>
+            <p>Gas store: The next-generation platform for all your gas needs. Shop LPG, industrial gases, refills, and accessories. Experience gas recommendations, and instant order tracking!</p>
+            <button class="starter-btn" onclick="showPage('cylinders')">Shop Now</button>
+        </div>
+    </section>
+    <!-- Cylinders Page -->
+    <section id="cylindersPage" class="hidden">
+        <h2 class="section-title">Gas Cylinders</h2>
+        <div class="product-list" id="cylinderProducts"></div>
+    </section>
+    <!-- Gases Page -->
+    <section id="gasesPage" class="hidden">
+        <h2 class="section-title">Types of Gases</h2>
+        <div class="product-list" id="gasProducts"></div>
+    </section>
+    <!-- Refills Page -->
+    <section id="refillsPage" class="hidden">
+        <h2 class="section-title">Gas Refills</h2>
+        <div class="product-list" id="refillProducts"></div>
+    </section>
+    <!-- Accessories Page -->
+    <section id="accessoriesPage" class="hidden">
+        <h2 class="section-title">Accessories</h2>
+        <div class="product-list" id="accessoryProducts"></div>
+    </section>
+    <!-- About Page -->
+    <section id="aboutPage" class="about hidden">
+        <h2>About RENNIE ENERGY</h2>
+        <p>
+            Welcome to <b>RENNIE ENERGY</b>, the most advanced gas platform in Kenya!<br>
+            <ul>
+                <li><b>Gas recommendations</b> for your home and business</li>
+                <li><b>Live chat</b> with our support team 24/7</li>
+                <li><b>Instant order tracking</b> and delivery notifications</li>
+                <li><b>Secure payments</b> via mobile money, card, or cash on delivery</li>
+                <li><b>Wide selection</b> of LPG, industrial gases, and accessories</li>
+                <li><b>Expert advice</b> and safety tips</li>
+            </ul>
+            <br>
+            <b>Our Promise:</b> Safety, reliability, and convenience for every customer.<br>
+            <br>
+            <b>Our Gallery:</b>
+        </p>
+        <div class="about-gallery">
+            <div>
+                <img src="premium lpg cylinder.avif" alt="Gas Cylinder">
+                <div class="gallery-caption">Premium LPG Cylinders</div>
+            </div>
+            <div>
+                <img src="fast delivary.jpg" alt="Gas Delivery">
+                <div class="gallery-caption">Fast Delivery</div>
+            </div>
+            <div>
+                <img src="accessories.avif" alt="Accessories">
+                <div class="gallery-caption">Accessories</div>
+            </div>
+            <div>
+                <img src="industrial gas.avif" alt="Industrial Gas">
+                <div class="gallery-caption">Industrial Gases</div>
+            </div>
+        </div>
+        <div class="about-footer" id="aboutFooter">
+            &copy; <span id="year"></span> Rennie Gas Store. All rights reserved.
+        </div>
+    </section>
+    <!-- Contact Page -->
+    <section id="contactPage" class="contact hidden">
+        <h2>Contact Us</h2>
+        <form id="contactForm" onsubmit="return sendMessage();">
+            <label for="name">Name:</label><br>
+            <input type="text" id="name" name="name" required style="width:90%;padding:8px;margin:8px 0;"><br>
+            <label for="email">Email:</label><br>
+            <input type="email" id="email" name="email" required style="width:90%;padding:8px;margin:8px 0;"><br>
+            <label for="message">Message:</label><br>
+            <textarea id="message" name="message" rows="4" required style="width:90%;padding:8px;margin:8px 0;"></textarea><br>
+            <button type="submit">Send Message</button>
+        </form>
+        <p style="margin-top:20px;">
+            Or call us directly: <a href="tel:+254740882180">+254 740882180/ +254739800181</a><br>
+            Email: <a href="mailto:renniedurant@gmail.com">renniedurant@gmail.com</a>
+        </p>
+    </section>
+</div>
+<!-- Order Modal -->
+<div class="order-modal" id="orderModal">
+    <div class="order-box">
+        <h3 id="orderProductTitle">Order Product</h3>
+        <p id="orderProductDesc"></p>
+        <form id="orderForm" onsubmit="return submitOrder();">
+            <input type="hidden" id="orderProduct" name="product">
+            <label for="orderName">Your Name:</label>
+            <input type="text" id="orderName" name="orderName" required>
+            <label for="orderEmail">Your Email:</label>
+            <input type="email" id="orderEmail" name="orderEmail" required>
+            <label for="orderPhone">Phone Number:</label>
+            <input type="tel" id="orderPhone" name="orderPhone" required>
+            <label for="orderAddress">Delivery Address:</label>
+            <textarea id="orderAddress" name="orderAddress" rows="2" required></textarea>
+            <label for="orderPayment">Payment Method:</label>
+            <select id="orderPayment" name="orderPayment" required>
+                <option value="">Select Payment Method</option>
+                <option value="mpesa">Mpesa</option>
+                <option value="delivery">Payment on Delivery</option>
+            </select>
+            <div id="mpesaInstructions" style="display:none;color:#1565c0;font-size:0.95em;margin-bottom:10px;">
+                Pay via Mpesa to <b>TILL 8146724 ,</b> and enter your transaction code in the address field.
+            </div>
+            <button type="submit">Checkout</button>
+            <button type="button" onclick="closeOrder()">Cancel</button>
+        </form>
+        <div class="order-success" id="orderSuccess" style="display:none;"></div>
+    </div>
+</div>
+<!-- More Options Modal -->
+<div class="options-modal" id="optionsModal">
+    <div class="options-box">
+        <h3 id="optionsProductTitle">Product Options</h3>
+        <div class="options-list" id="optionsList"></div>
+        <button type="button" onclick="closeOptions()">Close</button>
+    </div>
+</div>
+<!-- Help Modal -->
+<div class="help-modal" id="helpModal">
+    <div class="help-box">
+        <h3><span class="material-icons" style="vertical-align:middle;">help</span> Need Help?</h3>
+        <p>
+            <b>How to Order:</b><br>
+            1. Browse products and click "Order" on your desired item.<br>
+            2. Fill in your details and delivery address.<br>
+            3. Choose your payment method and checkout.<br>
+            4. We'll contact you to confirm.<br><br>
+            <b>Support:</b><br>
+            Call <a href="tel:+254792069642">+254 740882180 / +254739800181</a> or email <a href="mailto:renniedurant@gmail.com.com">renniedurant@gmail.com</a>.<br><br>
+            <b>Delivery:</b><br>
+            Fast delivery within Kangeta and surrounding areas.<br><br>
+            <b>Payment:</b><br>
+            Pay via Mpesa or on delivery.<br><br>
+            <button type="button" onclick="closeHelp()">Close</button>
+        </p>
+    </div>
+</div>
+<script>
+    // Data for products
+    const cylinders = [
+        { name: "6kg Gas Cylinder (Full)", price: "KES 3,500", desc: "Includes filled cylinder, regulator & hose.", img: "premium lpg cylinder.avif", type: "LPG Cylinder", badge: "Popular" },
+        { name: "13kg Gas Cylinder (Full)", price: "KES 7,000", desc: "Includes filled cylinder, regulator & hose.", img: "13kg lpg.avif", type: "LPG Cylinder", badge: "Best Value" }
+    ];
+    const gases = [
+        { name: "LPG Gas", price: "KES 200/kg", desc: "Liquefied Petroleum Gas for domestic use.", img: "premium lpg cylinder.avif", type: "LPG", badge: "Eco" },
+        { name: "Industrial Gas", price: "KES 2,000/cylinder", desc: "Industrial gases for welding and manufacturing.", img: "industrial gas.avif", type: "Industrial", badge: "Heavy Duty" },
+        { name: "Carbon Dioxide", price: "KES 1,200/cylinder", desc: "CO₂ for beverages and industrial use.", img: "industrial gas.avif", type: "CO₂", badge: "Food Grade" }
+    ];
+    const refills = [
+        { name: "6kg Gas Refill", price: "KES 1,150", desc: "Refill your 6kg cylinder. Fast delivery available.", img: "lpg 6kg gass.avif", type: "LPG Refill", badge: "Quick" },
+        { name: "13kg Gas Refill", price: "KES 2,400", desc: "Refill your 13kg cylinder. Fast delivery available.", img: "13kg lpg.avif", type: "LPG Refill", badge: "Bulk" }
+    ];
+    const accessories = [
+        { name: "Gas Regulator", price: "KES 600", desc: "High quality regulator for all cylinder sizes.", img: "regulator.avif", type: "Accessory", badge: "Safety" },
+        { name: "Gas Hose (1m)", price: "KES 100", desc: "Durable hose for safe gas connection.", img: "hose.webp", type: "Accessory", badge: "Durable" },
+        { name: "Gas Burner", price: "KES 250", desc: "Efficient burner for all LPG cylinders.", img: "gas burner.avif", type: "Accessory", badge: "Efficient" },
+        { name: "Gas Lighter", price: "KES 150", desc: "Reliable lighter for safe ignition.", img: "gas lighter.avif", type: "Accessory", badge: "Reliable" },
+        { name: "Gas Stove", price: "KES 4500", desc: "Portable gas stove for outdoor and indoor use.", img: "gas stove.avif", type: "Accessory", badge: "Portable" },
+        { name: "Cylinder Adapter", price: "KES 600", desc: "Adapter for connecting different cylinder types.", img: "cylinder adapter.avif", type: "Accessory", badge: "Universal" }
+    ];
+    // Render products
+    function renderProducts(list, containerId) {
+        const container = document.getElementById(containerId);
+        container.innerHTML = '';
+        list.forEach(prod => {
+            container.innerHTML += `
+                <div class="product-card">
+                    <div class="badge">${prod.badge}</div>
+                    <img src="${prod.img}" alt="${prod.name}">
+                    <div class="product-type">${prod.type}</div>
+                    <h3>${prod.name}</h3>
+                    <div class="product-price">${prod.price}</div>
+                    <p>${prod.desc}</p>
+                    <button class="order" onclick="openOrder('${prod.name}', '${prod.price}', '${prod.desc}')">Order</button>
+                    <button class="more" onclick="openOptions('${prod.name}')">More Options</button>
+                </div>
+            `;
+        });
+    }
+    renderProducts(cylinders, "cylinderProducts");
+    renderProducts(gases, "gasProducts");
+    renderProducts(refills, "refillProducts");
+    renderProducts(accessories, "accessoryProducts");
+
+    // SPA navigation logic
+    function toggleDrawer() {
+        document.getElementById('menuDrawer').classList.toggle('active');
+    }
+    function closeDrawer() {
+        document.getElementById('menuDrawer').classList.remove('active');
+    }
+    document.getElementById('year').textContent = new Date().getFullYear();
+    function sendMessage() {
+        const name = document.getElementById('name').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const message = document.getElementById('message').value.trim();
+        if(name && email && message) {
+            alert('Thank you, ' + name + '! Your message has been sent.');
+            document.getElementById('contactForm').reset();
+        }
+        return false;
+    }
+    function openOrder(product, price, desc) {
+        document.getElementById('orderProduct').value = product;
+        document.getElementById('orderProductTitle').textContent = product + " (" + price + ")";
+        document.getElementById('orderProductDesc').textContent = desc;
+        document.getElementById('orderSuccess').style.display = 'none';
+        document.getElementById('orderForm').reset();
+        document.getElementById('mpesaInstructions').style.display = 'none';
+        document.getElementById('orderModal').classList.add('active');
+    }
+    function closeOrder() { document.getElementById('orderModal').classList.remove('active'); }
+    document.getElementById('orderPayment').addEventListener('change', function() {
+        document.getElementById('mpesaInstructions').style.display =
+            this.value === 'mpesa' ? 'block' : 'none';
+    });
+    function submitOrder() {
+        const name = document.getElementById('orderName').value.trim();
+        const email = document.getElementById('orderEmail').value.trim();
+        const phone = document.getElementById('orderPhone').value.trim();
+        const address = document.getElementById('orderAddress').value.trim();
+        const payment = document.getElementById('orderPayment').value;
+        const product = document.getElementById('orderProduct').value;
+        if(name && email && phone && address && payment && product) {
+            emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", {
+                from_name: name,
+                from_email: email,
+                phone: phone,
+                address: address,
+                payment: payment,
+                product: product
+            }).then(function() {
+                document.getElementById('orderSuccess').innerHTML =
+                    'Thank you, <b>' + name + '</b>!<br>Your order for <b>' + product + '</b> has been received.<br>We will contact you at <b>' + phone + '</b>.';
+                document.getElementById('orderSuccess').style.display = 'block';
+                setTimeout(closeOrder, 3500);
+            }, function(error) {
+                document.getElementById('orderSuccess').innerHTML =
+                    'Sorry, there was an error sending your order. Please try again later.';
+                document.getElementById('orderSuccess').style.display = 'block';
+            });
+        }
+        return false;
+    }
+    const productOptions = {
+        "6kg Gas Cylinder (Full)": [{ label: "Brand", values: ["Total 5000", "ProGas 4700","hashi 4200", "local 3500", "afri 4000",  "lake 4200",  "K-Gas5500"] }],
+        "13kg Gas Cylinder (Full)": [{ label: "Brand", values: ["afri 6000", "ProGas 8500","hashi 6500", "lake 6000", "local 5500"] }],
+        "6kg Gas Refill": [{ label: "Brand", values: ["Total", "ProGas", "hashi","afriGas", "localgas","lakegas",  "K-Gas"] }],
+        "13kg Gas Refill": [{ label: "Brand", values: ["afrigas", "ProGas","lakegas", "hashi"] }],
+        "Gas Regulator": [{ label: "Type", values: ["Clip-on", "Screw-on"] }],
+        "Gas Hose (1m)": [{ label: "Length", values: ["1m", "2m", "3m"] }],
+        "Gas Burner": [{ label: "Type", values: ["Single", "Double"] }],
+        "Gas Lighter": [{ label: "Type", values: ["Standard", "Long"] }],
+        "Gas Stove": [{ label: "Type", values: ["Portable", "Table-top"] }],
+        "Cylinder Adapter": [{ label: "Type", values: ["Universal", "Specific"] }]
+    };
+    function openOptions(product) {
+        document.getElementById('optionsProductTitle').textContent = product + " - More Options";
+        const optionsDiv = document.getElementById('optionsList');
+        optionsDiv.innerHTML = '';
+        if(productOptions[product]) {
+            productOptions[product].forEach(opt => {
+                optionsDiv.innerHTML += `
+                    <label>${opt.label}:</label>
+                    <select>
+                        ${opt.values.map(v => `<option>${v}</option>`).join('')}
+                    </select>
+                `;
+            });
+        } else {
+            optionsDiv.innerHTML = "<em>No extra options for this product.</em>";
+        }
+        document.getElementById('optionsModal').classList.add('active');
+    }
+    function closeOptions() { document.getElementById('optionsModal').classList.remove('active'); }
+    function openHelp() {
+        document.getElementById('helpModal').classList.add('active');
+    }
+    function closeHelp() {
+        document.getElementById('helpModal').classList.remove('active');
+    }
+    document.getElementById('orderModal').onclick = function(e) { if(e.target === this) closeOrder(); };
+    document.getElementById('optionsModal').onclick = function(e) { if(e.target === this) closeOptions(); };
+    document.getElementById('helpModal').onclick = function(e) { if(e.target === this) closeHelp(); };
+    document.getElementById('menuDrawer').onclick = function(e) { if(e.target === this) closeDrawer(); };
+    document.addEventListener('keydown', function(e) {
+        if(e.key === "Escape") {
+            closeOrder();
+            closeOptions();
+            closeHelp();
+            closeDrawer();
+        }
+    });
+    function showPage(page) {
+        [
+            'starterPage','cylindersPage','gasesPage','refillsPage','accessoriesPage','aboutPage','contactPage'
+        ].forEach(function(id){
+            document.getElementById(id).classList.add('hidden');
+        });
+        document.getElementById(page + 'Page').classList.remove('hidden');
+        document.getElementById('aboutFooter').style.display = (page === 'about') ? '' : 'none';
+        closeDrawer();
+        window.scrollTo({top: 0, behavior: 'smooth'});
+    }
+    // Default page is starter
+    showPage('starter');
+</script>
+</body>
+</html>
